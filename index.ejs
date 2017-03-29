@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta property="og:title" content="Wize Learn">
+    <meta name="description" content="Wize Learn Platform">
+    <meta property="og:description" content="Wize Learn Platform">
+    <link rel="canonical" href="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+  </head>
+  <body>
+    <% if (htmlWebpackPlugin.options.appMountId) { %>
+    <div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
+    <% } %>
+    <% if (htmlWebpackPlugin.options.window) { %>
+    <script>
+      <% for (var varName in htmlWebpackPlugin.options.window) { %>
+        window['<%=varName%>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[varName]) %>;
+      <% } %>
+    </script>
+    <% } %>
+  </body>
+</html>
