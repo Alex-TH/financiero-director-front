@@ -8,6 +8,8 @@ class Builder extends Component {
       draggables: []
     };
     this.addDraggable = this.addDraggable.bind(this);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDrop = this.onDrop.bind(this);
   }
 
   addDraggable() {
@@ -18,12 +20,33 @@ class Builder extends Component {
     }
     const key = `value${draggables.length}`;
     draggables.push(
-      <DraggableBox key={key} name={key} value={value}/>
+      <DraggableBox
+        key={key} name={key} value={value} onDragStart={this.onDragStart} onDrop={this.onDrop}
+      />
     );
     this.setState({
       draggables,
     });
     this.props.addKeyValue(key, value);
+  }
+
+  onDragStart(indexDragged) {
+    this.indexDragged = indexDragged;
+  }
+
+  onDrop(indexDropped) {
+    const draggables = [...this.state.draggables];
+    const elementDragged = draggables[this.indexDragged];
+    const elementDropped = draggables[indexDropped];
+    elementDragged.props.value.index = indexDropped;
+    elementDropped.props.value.index = this.indexDragged;
+    draggables[this.indexDragged] = elementDropped;
+    draggables[indexDropped] = elementDragged;
+    this.setState({ draggables });
+    this.props.refreshResult({
+      [elementDragged.props.name]: elementDragged.props.value,
+      [elementDropped.props.name]: elementDropped.props.value,
+    });
   }
 
   render() {

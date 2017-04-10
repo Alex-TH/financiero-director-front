@@ -11,6 +11,7 @@ class Creator extends Component {
     this.addKeyValue = this.addKeyValue.bind(this);
     this.removeKey = this.removeKey.bind(this);
     this.renameKey = this.renameKey.bind(this);
+    this.refreshResult = this.refreshResult.bind(this);
   }
 
   addKeyValue(key, value) {
@@ -31,12 +32,20 @@ class Creator extends Component {
     delete result[key];
     this.setState({ result });
   }
+  
+  refreshResult(partialResult) {
+    const result = { ...this.state.result };
+    this.setState({ result: Object.assign(result, partialResult) });
+  }
 
   render() {
     const { result } = this.state;
     return (
       <div className='creator'>
-        <Builder addKeyValue={this.addKeyValue} removeKey={this.removeKey} rename={this.renameKey}/>
+        <Builder
+          addKeyValue={this.addKeyValue} removeKey={this.removeKey}
+          rename={this.renameKey} refreshResult={this.refreshResult}
+        />
         <Result result={JSON.stringify(result, null, 4)}/>
       </div>
     );

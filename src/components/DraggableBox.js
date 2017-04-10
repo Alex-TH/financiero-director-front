@@ -8,25 +8,37 @@ class DraggableBox extends Component {
       value: props.value,
     }
     this.onDragStart = this.onDragStart.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
+    this.onDrop = this.onDrop.bind(this);
   }
 
-  onDragStart(event) {
-    this.props.ondDragStart();
+  onDragStart(e) {
+    this.props.onDragStart(this.props.value.index);
   }
 
-  onDragEnd(event) {
-    this.props.ondDragEnd();
+  onDrop(e) {
+    this.props.onDrop(this.props.value.index);
+  }
+
+  onDragOver(e) {
+    e.preventDefault();
   }
 
   render() {
-    const { key, value } = this.state;
+    const { key, value, hide } = this.state;
     return (
-      <div draggable className='draggable-box' onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+      <div
+        draggable className='draggable-box' onDrop={this.onDrop}
+        onDragStart={this.onDragStart} onDragOver={this.onDragOver}
+      >
         {key} {value.type}
       </div>
     );
   }
 }
+
+DraggableBox.defaultProps = {
+  onDragStart: () => {},
+  onDrop: () => {},
+};
 
 export default DraggableBox;
