@@ -35,8 +35,8 @@ module.exports = {
       include: path.join(__dirname, '../src'),
     }, {
       test: /\.scss$/,
-      loaders: [ 'style', 'css', 'sass' ],
-      include: path.join(__dirname, '../css'),
+      loader: 'style-loader!raw-loader!sass-loader',
+      include: path.join(__dirname, '../src/css'),
     }, {
       test: /\.(jpg|png)$/,
       loader: 'url-loader',
